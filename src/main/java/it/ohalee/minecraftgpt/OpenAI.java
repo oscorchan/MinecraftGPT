@@ -25,6 +25,8 @@ public class OpenAI {
     public static CompletableFuture<String> getResponse(ConfigurationSection section, StringBuilder cached, String message) {
         cached.append("\nHuman:").append(message).append("\nAI:");
 
+        String prePrompt = "Tu es une IA experte dans le jeu Minecraft. Tu te trouves actuellement dans Minecraft. Les réponses doivent être les plus courtes possibles tout en restant clair.\n";
+
         return CompletableFuture.supplyAsync(() -> {
             String model = section.getString("model", "text-davinci-003");
             int maxTokens = section.getInt("max-tokens");
@@ -47,7 +49,7 @@ public class OpenAI {
             }
 
             return service.createCompletion(CompletionRequest.builder()
-                            .prompt(cached.toString())
+                            .prompt(prePrompt + cached.toString())
                             .model(model)
                             .temperature(temperature)
                             .maxTokens(maxTokens)
