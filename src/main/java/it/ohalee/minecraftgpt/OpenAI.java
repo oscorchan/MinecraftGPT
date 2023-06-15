@@ -14,8 +14,12 @@ public class OpenAI {
 
     private static OpenAiService service;
 
-    public static CompletableFuture<Void> init(String key) {
-        return CompletableFuture.runAsync(() -> service = new OpenAiService(key, Duration.ofSeconds(30)));
+    public static CompletableFuture<Void> init(String key, ConfigurationSection timeConfig) {
+
+        return CompletableFuture.runAsync(() -> {
+            int maxTimeSeconds = timeConfig.getInt("maxTime", 30);
+            service = new OpenAiService(key, Duration.ofSeconds(maxTimeSeconds));
+        });
     }
 
     public static CompletableFuture<String> getResponse(ConfigurationSection section, StringBuilder cached, String message) {

@@ -27,7 +27,7 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
 
-        OpenAI.init(getConfig().getString("API_KEY")).exceptionallyAsync(throwable -> {
+        OpenAI.init(getConfig().getString("API_KEY"), getConfig()).exceptionallyAsync(throwable -> {
             getLogger().severe("Error while initializing OpenAI service! Is your API key valid?");
             throwable.printStackTrace();
             return null;
