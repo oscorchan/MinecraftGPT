@@ -22,12 +22,11 @@ public class OpenAI {
         });
     }
 
-    public static CompletableFuture<String> getResponse(ConfigurationSection section, StringBuilder cached, String message, ConfigurationSection config) {
+    public static CompletableFuture<String> getResponse(ConfigurationSection section, StringBuilder cached, String message) {
         cached.append("\nHuman:").append(message).append("\nAI:");
 
-        String prePrompt = config.getString("prePrompt","");
-
         return CompletableFuture.supplyAsync(() -> {
+            String avantPrompt = section.getString("prePrompt", "");
             String model = section.getString("model", "text-davinci-003");
             int maxTokens = section.getInt("max-tokens");
             double frequencyPenalty = section.getDouble("frequency-penalty");
@@ -49,7 +48,7 @@ public class OpenAI {
             }
 
             return service.createCompletion(CompletionRequest.builder()
-                            .prompt(prePrompt + cached.toString())
+                            .prompt(avantPrompt + cached.toString())
                             .model(model)
                             .temperature(temperature)
                             .maxTokens(maxTokens)
