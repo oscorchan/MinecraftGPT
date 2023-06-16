@@ -45,7 +45,7 @@ public class ChatHandler implements Listener {
         StringBuilder builder = Main.CACHE.getIfPresent(player);
         if (builder == null) builder = new StringBuilder();
 
-        OpenAI.getResponse(plugin.getConfig().getConfigurationSection("chatgpt"), builder, e.getMessage()).whenComplete((response, throwable) -> {
+        OpenAI.getResponse(plugin.getConfig().getConfigurationSection("chatgpt"), builder, e.getMessage(), plugin.getConfig().getConfigurationSection("prePrompt")).whenComplete((response, throwable) -> {
             if (throwable != null) {
                 throwable.printStackTrace();
                 player.sendMessage(Messages.format(plugin.getConfig().getString("command.error")));

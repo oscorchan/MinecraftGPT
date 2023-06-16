@@ -30,3 +30,4 @@ chat-priority: HIGH
 # https://beta.openai.com/account/api-keys
 API_KEY: ""
 maxTime: 30
+prePrompt: "Tu es une IA experte dans le jeu Minecraft. Tu te trouves actuellement dans Minecraft. Les réponses doivent être les plus concises possibles tout en restant clair.\n"

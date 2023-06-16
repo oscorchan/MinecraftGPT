@@ -22,10 +22,10 @@ public class OpenAI {
         });
     }
 
-    public static CompletableFuture<String> getResponse(ConfigurationSection section, StringBuilder cached, String message) {
+    public static CompletableFuture<String> getResponse(ConfigurationSection section, StringBuilder cached, String message, ConfigurationSection config) {
         cached.append("\nHuman:").append(message).append("\nAI:");
 
-        String prePrompt = "Tu es une IA experte dans le jeu Minecraft. Tu te trouves actuellement dans Minecraft. Les réponses doivent être les plus courtes possibles tout en restant clair.\n";
+        String prePrompt = config.getString("prePrompt","");
 
         return CompletableFuture.supplyAsync(() -> {
             String model = section.getString("model", "text-davinci-003");
